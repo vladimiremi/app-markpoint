@@ -1,6 +1,9 @@
 
 import React, {useState, useEffect} from 'react';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import {
     View,
     StyleSheet,
@@ -20,7 +23,7 @@ import api from '../../services/api.js';
 const STORAGE_KEY = '@save_age';
 
 
-export default function Login() {
+export default function Login( { navigation } ) {
     
   const [ email, setEmail] = useState('');
   const [ password, setPassword] = useState();
@@ -60,17 +63,18 @@ export default function Login() {
       // }
       
 
-
+      navigation.navigate('Collaborator');
       alert("Logado!");
     } catch(err){
       alert("Erro ao fazer login, tente novamente!" + err);
     }
+
 }
 
 
 
     return (
-        <View>
+        <View style={{flex: 1}}>
             <StatusBar hidden={true}/>
 
             <View style={styles.container}>
