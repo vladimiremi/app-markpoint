@@ -5,17 +5,42 @@ import api from '../../services/api';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+ 
+
+  
+  
 
 
 
 export default function Collaborator({ navigation }) {
-    const idCollaborator = '0436e21b';
+    // const idCollaborator = '0436e21b';
 
     const [collaborator, setCollaborator] = useState([]);
     const [pointsOfDay, setPointsOfDay] = useState([]);
 
+    const [idCollaborator, setIdCollaborator] = useState();
+
+    const [ newPoint, setNewPoint ] = useState(0)
+
+    const getData = async () => {
+        try {
+           const value = await AsyncStorage.getItem('@storage_Key')
+          if(value !== null) {
+            setIdCollaborator(value);
+          }
+        } catch(e) {
+          alert('deu erro', e)
+        }
+      //   console.log()
+      }
+      getData()
+    
+
     useEffect(()=>{
+        
         api.get('informations-collaborator-mobile', {
             headers: {
                 Authorization: idCollaborator
@@ -40,15 +65,18 @@ export default function Collaborator({ navigation }) {
               
               setPointsOfDay(pointsDay);
             })
-    }, [])
+    }, [idCollaborator, newPoint])
 
     async function handleCreatePoint() {
+        setNewPoint(newPoint + 1)
+        alert(newPoint);
         await api.post('new-point', {latitude: '-41065655645', longitude: '-4212456454'}, {
             headers: {
                 Authorization: idCollaborator,
             }
         })
-        navigation.navigate('Collaborator');
+        
+        
     }
 
     return (

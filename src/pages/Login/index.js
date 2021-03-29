@@ -4,6 +4,8 @@ import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
     View,
     StyleSheet,
@@ -40,31 +42,20 @@ export default function Login( { navigation } ) {
     try {
       const response = await api.post('session-collaborator', { email, password } );
       
-      // const idCollaborator = async (value) => {
-      //   try {
-      //     await AsyncStorage.setItem('@storage_Key', value);
-      //     alert("LocalStorage Salvo!")
-      //   } catch (e) {
-      //     alert('LocalStorage não salvo!')
-      //   }
-      // };
+      const idCollaborator = async (value) => {
+        try {
+          await AsyncStorage.setItem('@storage_Key', value);
+        } catch (e) {
+          alert('LocalStorage não salvo!' + e)
+        }
+      };
 
-      // idCollaborator(response.data[0]?.id);
+      idCollaborator(response.data[0]?.id);
 
-      
-      // getData = async () => {
-      //   try {
-      //      return  await AsyncStorage.getItem('@storage_Key')
-          
-      //   } catch(e) {
-      //     // error reading value
-      //   }
-      //   console.log()
-      // }
-      
+     
 
       navigation.navigate('Collaborator');
-      alert("Logado!");
+      // alert("Logado!");
     } catch(err){
       alert("Erro ao fazer login, tente novamente!" + err);
     }
