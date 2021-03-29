@@ -63,7 +63,7 @@ export default function Collaborator({ navigation }) {
                 pointsDay = [...pointsDay, response.data.slice(i, i + corte)]
               }
               
-              setPointsOfDay(pointsDay);
+              setPointsOfDay(pointsDay.reverse());
             })
     }, [idCollaborator, newPoint])
 
